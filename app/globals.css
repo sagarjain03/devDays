@@ -1,0 +1,19 @@
+/* src/app/globals.css */
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-zinc-950 text-zinc-100 antialiased;
+  font-family: var(--font-mono), 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+* {
+  @apply border-zinc-800;
+}
+
+::selection {
+  @apply bg-violet-500/30 text-violet-100;
+}
