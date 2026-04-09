@@ -18,19 +18,22 @@ import { STORAGE_KEY } from "@/app/constants";
 //            "right" = going backward (prev month)
 const pageVariants = {
   enter: (direction: AnimationDirection) => ({
-    x: direction === "left" ? 60 : -60,
+    rotateX: direction === "left" ? -90 : 90,
     opacity: 0,
-    rotateY: direction === "left" ? 8 : -8,
+    y: direction === "left" ? -20 : 20,
+    originY: 0, // pivot from top
   }),
   center: {
-    x: 0,
+    rotateX: 0,
     opacity: 1,
-    rotateY: 0,
+    y: 0,
+    originY: 0,
   },
   exit: (direction: AnimationDirection) => ({
-    x: direction === "left" ? -60 : 60,
+    rotateX: direction === "left" ? 90 : -90,
     opacity: 0,
-    rotateY: direction === "left" ? -8 : 8,
+    y: direction === "left" ? 20 : -20,
+    originY: 0,
   }),
 };
 
@@ -129,28 +132,29 @@ export function CalendarContainer() {
   const monthKey = `${currentDate.getFullYear()}-${currentDate.getMonth()}`;
 
   return (
-    <div className="min-h-screen bg-zinc-950 p-4 lg:p-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6 lg:gap-8">
+    <div className="h-screen bg-zinc-950 p-4 lg:p-8 overflow-hidden">
+      <div className="max-w-6xl mx-auto h-full">
+        <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6 lg:gap-8 h-full">
 
-          {/* Left — Hero (sticky on desktop) */}
+          {/* Left — Hero and Notes */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="lg:sticky lg:top-8 lg:self-start"
+            className="flex flex-col gap-6 h-full min-h-0"
           >
             <HeroSection currentDate={currentDate} dayStatuses={dayStatuses} />
+            <NotesPanel selectedRange={selectedRange} currentDate={currentDate} />
           </motion.div>
 
-          {/* Right — Calendar + Notes */}
+          {/* Right — Calendar */}
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
-            className="flex flex-col gap-6"
+            className="flex flex-col gap-6 h-full min-h-0"
           >
-            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 overflow-hidden">
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 flex flex-col h-full overflow-hidden relative">
               <MonthNavigator
                 currentDate={currentDate}
                 onPrev={handlePrev}
@@ -158,43 +162,32 @@ export function CalendarContainer() {
                 onToday={handleToday}
               />
 
-              {/* AnimatePresence enables exit animations */}
-              {/* mode="wait" ensures exit completes before enter starts */}
-              <AnimatePresence mode="wait" custom={direction}>
-                <motion.div
-                  key={monthKey}
-                  custom={direction}
-                  variants={pageVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={pageTransition}
-                  style={{ transformPerspective: 1200 }} // Needed for rotateY
-                >
-                  <CalendarGrid
-                    days={days}
-                    selectedRange={selectedRange}
-                    dayStatuses={dayStatuses}
-                    onDayClick={selectDate}
-                    onDayStatus={handleDayStatus}
-                  />
-                </motion.div>
-              </AnimatePresence>
+              <div className="flex-1 relative min-h-0">
+                <AnimatePresence>
+                  <motion.div
+                    key={monthKey}
+                    custom={direction}
+                    variants={pageVariants}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={pageTransition}
+                    style={{ transformPerspective: 1200, transformStyle: "preserve-3d" }}
+                    className="absolute inset-0"
+                  >
+                    <CalendarGrid
+                      days={days}
+                      selectedRange={selectedRange}
+                      dayStatuses={dayStatuses}
+                      onDayClick={selectDate}
+                      onDayStatus={handleDayStatus}
+                    />
+                  </motion.div>
+                </AnimatePresence>
+              </div>
 
               {/* Range info bar */}
-              {selectedRange.start && (
-                <RangeInfoBar
-                  selectedRange={{
-                    start: selectedRange.start,
-                    end: selectedRange.end,
-                  }}
-                  onClear={clearRange}
-                />
-              )}
             </div>
-
-            {/* Notes Panel */}
-            <NotesPanel selectedRange={selectedRange} currentDate={currentDate} />
           </motion.div>
         </div>
       </div>

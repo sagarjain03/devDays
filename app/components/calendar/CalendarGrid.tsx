@@ -19,8 +19,8 @@ export function CalendarGrid({
   onDayStatus,
 }: CalendarGridProps) {
   return (
-    <div>
-      <div className="grid grid-cols-7 mb-2">
+    <div className="h-full flex flex-col">
+      <div className="grid grid-cols-7 mb-2 flex-shrink-0">
         {DAYS_OF_WEEK.map((day) => (
           <div
             key={day}
@@ -31,7 +31,7 @@ export function CalendarGrid({
         ))}
       </div>
 
-      <div className="grid grid-cols-7 gap-1">
+      <div className="grid grid-cols-7 grid-rows-6 gap-1 flex-1 min-h-0">
         {days.map((day) => (
           <DateCell
             key={day.date.toISOString()}

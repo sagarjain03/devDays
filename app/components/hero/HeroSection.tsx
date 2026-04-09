@@ -21,7 +21,7 @@ export function HeroSection({ currentDate, dayStatuses = {} }: HeroSectionProps)
   const monthKey = `${year}-${currentDate.getMonth()}`;
 
   return (
-    <div className="relative flex flex-col justify-between h-full min-h-[220px] md:min-h-[260px] lg:min-h-full rounded-2xl overflow-hidden bg-zinc-900 border border-zinc-800 p-6 md:p-8">
+    <div className="relative flex flex-col justify-between min-h-[220px] md:min-h-[260px] rounded-2xl flex-shrink-0 overflow-hidden bg-zinc-900 border border-zinc-800 p-6 md:p-8">
 
       {/* Geometric background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">

@@ -56,7 +56,7 @@ export function DateCell({
 
   // --- Base classes ---
   const cellBase =
-    "relative flex flex-col items-center justify-center aspect-square min-h-[44px] text-sm font-mono transition-all duration-150 cursor-pointer select-none";
+    "relative flex flex-col items-center justify-center w-full h-full text-sm font-mono transition-all duration-150 cursor-pointer select-none";
 
   const cellShape = isMiddle ? "rounded-none" : "rounded-xl";
 
