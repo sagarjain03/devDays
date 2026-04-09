@@ -3,6 +3,7 @@
 
 import { MONTHS } from "@/app/constants";
 import { ChevronLeft, ChevronRight, RotateCcw } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface MonthNavigatorProps {
   currentDate: Date;
@@ -36,15 +37,17 @@ export function MonthNavigator({
 
       {/* Navigation buttons */}
       <div className="flex items-center gap-2">
-        <button
+        <motion.button
+          whileTap={{ scale: 0.95 }}
           onClick={onPrev}
-          className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors"
+          className="group p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors"
           aria-label="Previous month"
         >
-          <ChevronLeft className="w-4 h-4" />
-        </button>
+          <ChevronLeft className="w-4 h-4 transform transition-transform group-hover:-translate-x-0.5" />
+        </motion.button>
 
-        <button
+        <motion.button
+          whileTap={!isCurrentMonth ? { scale: 0.95 } : undefined}
           onClick={onToday}
           disabled={isCurrentMonth}
           className={`px-3 py-2 rounded-lg bg-zinc-800 transition-colors text-sm font-mono ${
@@ -56,15 +59,16 @@ export function MonthNavigator({
         >
           <RotateCcw className="w-4 h-4 inline mr-1" />
           Today
-        </button>
+        </motion.button>
 
-        <button
+        <motion.button
+          whileTap={{ scale: 0.95 }}
           onClick={onNext}
-          className="p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors"
+          className="group p-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 transition-colors"
           aria-label="Next month"
         >
-          <ChevronRight className="w-4 h-4" />
-        </button>
+          <ChevronRight className="w-4 h-4 transform transition-transform group-hover:translate-x-0.5" />
+        </motion.button>
       </div>
     </div>
   );

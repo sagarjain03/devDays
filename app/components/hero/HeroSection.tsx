@@ -21,12 +21,20 @@ export function HeroSection({ currentDate, dayStatuses = {} }: HeroSectionProps)
   const monthKey = `${year}-${currentDate.getMonth()}`;
 
   return (
-    <div className="relative flex flex-col justify-between h-full min-h-[320px] lg:min-h-full rounded-2xl overflow-hidden bg-zinc-900 border border-zinc-800 p-8">
+    <div className="relative flex flex-col justify-between h-full min-h-[220px] md:min-h-[260px] lg:min-h-full rounded-2xl overflow-hidden bg-zinc-900 border border-zinc-800 p-6 md:p-8">
 
       {/* Geometric background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-16 -right-16 w-64 h-64 rounded-full bg-violet-600/10 blur-3xl" />
-        <div className="absolute -bottom-16 -left-16 w-64 h-64 rounded-full bg-violet-900/20 blur-3xl" />
+        <motion.div 
+          animate={{ scale: [1, 1.1, 1], rotate: [0, 90, 0] }} 
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          className="absolute -top-16 -right-16 w-64 h-64 rounded-full bg-violet-600/10 blur-3xl" 
+        />
+        <motion.div 
+          animate={{ scale: [1, 1.2, 1], rotate: [0, -90, 0] }} 
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+          className="absolute -bottom-16 -left-16 w-64 h-64 rounded-full bg-violet-900/20 blur-3xl" 
+        />
       </div>
 
       {/* Month display with animation */}

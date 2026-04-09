@@ -56,7 +56,7 @@ export function DateCell({
 
   // --- Base classes ---
   const cellBase =
-    "relative flex flex-col items-center justify-center aspect-square text-sm font-mono transition-all duration-150 cursor-pointer select-none";
+    "relative flex flex-col items-center justify-center aspect-square min-h-[44px] text-sm font-mono transition-all duration-150 cursor-pointer select-none";
 
   const cellShape = isMiddle ? "rounded-none" : "rounded-xl";
 
@@ -82,7 +82,8 @@ export function DateCell({
 
   return (
     <div className="relative">
-      <button
+      <motion.button
+        whileTap={{ scale: 0.92 }}
         onClick={() => onClick(date)}
         onContextMenu={handleRightClick}
         onMouseEnter={() => setIsHovered(true)}
@@ -112,7 +113,7 @@ export function DateCell({
         {isToday && !isSelected && (
           <span className="absolute inset-0 rounded-xl ring-2 ring-violet-500/50 animate-pulse" />
         )}
-      </button>
+      </motion.button>
 
       {/* Hover tooltip */}
       <AnimatePresence>
@@ -122,9 +123,9 @@ export function DateCell({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 4, scale: 0.95 }}
             transition={{ duration: 0.15 }}
-            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 pointer-events-none"
+            className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 pointer-events-none max-w-[200px]"
           >
-            <div className="bg-zinc-800 border border-zinc-700 rounded-lg px-2.5 py-1.5 text-xs font-mono whitespace-nowrap shadow-xl">
+            <div className="bg-zinc-800 border border-zinc-700 rounded-lg px-2.5 py-1.5 text-xs font-mono shadow-xl whitespace-nowrap text-center">
               {status ? (
                 <span className={
                   status === "productive" ? "text-emerald-400" :

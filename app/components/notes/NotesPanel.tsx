@@ -3,7 +3,7 @@
 
 import { useNotes } from "@/app/hooks/useNotes";
 import { DateRange } from "@/app/types";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Trash2 } from "lucide-react";
 import { toDateKey } from "@/app/lib/dateUtils";
 
@@ -70,32 +70,36 @@ export function NotesPanel({ selectedRange, currentDate }: NotesPanelProps) {
             &gt; no notes yet. start typing above.
           </p>
         ) : (
-          <div className="flex flex-col gap-3">
-            {allNotes.map((note, index) => (
-              <motion.div
-                key={note.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-                className="group relative bg-zinc-950 border border-zinc-800/50 rounded-xl p-4 pr-10"
-              >
-                <p className="text-violet-400/80 font-mono text-xs mb-2">
-                  {formatRange(note.rangeStart, note.rangeEnd)}
-                </p>
-                <p className="text-zinc-400 font-mono text-sm line-clamp-2">
-                  {note.content.length > 60 ? note.content.slice(0, 60) + "..." : note.content}
-                </p>
-                
-                <button
-                  onClick={() => deleteNote(note.id)}
-                  className="absolute top-4 right-4 text-zinc-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all"
-                  aria-label="Delete note"
+          <motion.div layout className="flex flex-col gap-3">
+            <AnimatePresence mode="popLayout">
+              {allNotes.map((note, index) => (
+                <motion.div
+                  layout
+                  key={note.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, x: 20, scale: 0.95 }}
+                  transition={{ delay: index * 0.05 }}
+                  className="group relative bg-zinc-950 border border-zinc-800/50 rounded-xl p-4 pr-10"
                 >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </motion.div>
-            ))}
-          </div>
+                  <p className="text-violet-400/80 font-mono text-xs mb-2">
+                    {formatRange(note.rangeStart, note.rangeEnd)}
+                  </p>
+                  <p className="text-zinc-400 font-mono text-sm line-clamp-2">
+                    {note.content.length > 60 ? note.content.slice(0, 60) + "..." : note.content}
+                  </p>
+                  
+                  <button
+                    onClick={() => deleteNote(note.id)}
+                    className="absolute top-4 right-4 text-zinc-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all"
+                    aria-label="Delete note"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
         )}
       </div>
     </div>

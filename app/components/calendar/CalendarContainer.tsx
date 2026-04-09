@@ -35,7 +35,7 @@ const pageVariants = {
 };
 
 const pageTransition = {
-  type: "spring",
+  type: "spring" as const,
   stiffness: 300,
   damping: 30,
   duration: 0.35,
@@ -134,12 +134,22 @@ export function CalendarContainer() {
         <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6 lg:gap-8">
 
           {/* Left — Hero (sticky on desktop) */}
-          <div className="lg:sticky lg:top-8 lg:self-start">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="lg:sticky lg:top-8 lg:self-start"
+          >
             <HeroSection currentDate={currentDate} dayStatuses={dayStatuses} />
-          </div>
+          </motion.div>
 
           {/* Right — Calendar + Notes */}
-          <div className="flex flex-col gap-6">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+            className="flex flex-col gap-6"
+          >
             <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 overflow-hidden">
               <MonthNavigator
                 currentDate={currentDate}
@@ -185,7 +195,7 @@ export function CalendarContainer() {
 
             {/* Notes Panel */}
             <NotesPanel selectedRange={selectedRange} currentDate={currentDate} />
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

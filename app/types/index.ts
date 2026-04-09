@@ -17,6 +17,9 @@ export interface DateRange {
 // Status a developer can assign to a day
 export type DayStatus = "productive" | "missed" | "rest" | null;
 
+// Animation direction for the page flip
+export type AnimationDirection = "left" | "right";
+
 // A single note entry tied to a date range or month
 export interface Note {
   id: string;
